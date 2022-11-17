@@ -34,6 +34,12 @@ variable "schedule" {
 
 provider "aws" {
   region = var.region
+  default_tags {
+    tags = {
+      Environment = "test"
+      Name        = "wnba"
+    }
+  }
 }
 
 locals {
