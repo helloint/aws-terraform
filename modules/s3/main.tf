@@ -5,7 +5,10 @@ resource "aws_s3_bucket" "s3_bucket" {
   bucket = var.s3_bucket
 }
 
-resource "aws_s3_account_public_access_block" "s3_bucket_access" {
+#https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket_public_access_block
+resource "aws_s3_bucket_public_access_block" "s3_bucket_access" {
+  bucket = aws_s3_bucket.s3_bucket.id
+
   ignore_public_acls      = true
   block_public_acls       = true
   block_public_policy     = true
