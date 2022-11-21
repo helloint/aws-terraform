@@ -1,10 +1,11 @@
 locals {
-  s3_origin_id = "tf_wnba"
+  s3_origin_id = "tf_${local.task_name}"
+  task_name    = var.task_name
 }
 
 #https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/cloudfront_origin_access_identity
 resource "aws_cloudfront_origin_access_identity" "cloudfront_oai" {
-  comment = "wnba oai"
+  comment = "${local.task_name} oai"
 }
 
 #https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/cloudfront_distribution
@@ -19,7 +20,7 @@ resource "aws_cloudfront_distribution" "s3_distribution" {
 
   enabled             = true
   is_ipv6_enabled     = true
-  comment             = "WNBA CDN"
+  comment             = ""
   default_root_object = "index.html"
 
   default_cache_behavior {
@@ -69,8 +70,4 @@ data "aws_iam_policy_document" "s3_bucket_policy_document" {
 resource "aws_s3_bucket_policy" "s3_bucket_policy" {
   bucket = module.lambda_bucket.id
   policy = data.aws_iam_policy_document.s3_bucket_policy_document.json
-}
-
-output "domain_name" {
-  value = aws_cloudfront_distribution.s3_distribution.domain_name
 }
