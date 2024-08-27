@@ -12,7 +12,7 @@ exports.handler = async (event) => {
 
         var params = {
             Body: processedResult,
-            Bucket: 'tf-wnba-data', // TODO: export param
+            Bucket: 'tf-hint-demo-data', // TODO: export param
             Key: 'boxscore.json',
             ContentType: 'application/json',
         };

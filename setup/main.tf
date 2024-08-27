@@ -1,9 +1,5 @@
-variable "state_locking_bucket_name" {
-  default = "tf-terraform-state-lock"
-}
-
-variable "state_locking_db_name" {
-  default = "tf-terraform-state-lock"
+provider "aws" {
+  region = var.region
 }
 
 resource "aws_dynamodb_table" "state_locking" {

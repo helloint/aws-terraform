@@ -1,5 +1,5 @@
 provider "aws" {
-  region = "ap-northeast-1"
+  region = var.region
 }
 
 #https://developer.hashicorp.com/terraform/language/settings/backends/s3
@@ -13,13 +13,6 @@ terraform {
       source  = "hashicorp/aws"
       version = "~> 4.40"
     }
-  }
-  backend "s3" {
-    region         = "ap-northeast-1"
-    key            = "terraform.tfstate"
-    bucket         = "tf-wnba-terraform-state-lock"
-    dynamodb_table = "tf-wnba-terraform-state-lock"
-    encrypt        = true
   }
 }
 

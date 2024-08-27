@@ -13,7 +13,7 @@ resource "aws_lambda_function" "function" {
   function_name    = var.function_name
   handler          = var.function_handler
   role             = var.role_arn
-  runtime          = "nodejs12.x"
+  runtime          = "nodejs16.x"
   layers           = var.layer == "" ? [] : [var.layer]
 }
 
