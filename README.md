@@ -14,7 +14,7 @@ aws_access_key_id = XXX
 aws_secret_access_key = XXX
 ```
 
-## Steps
+## Setup
 1. First you need to have an AWS account with proper rules in order to create required resources.
 2. Go to `setup/` folder, generate resources that remote terraform state requires.
 ```shell
@@ -28,7 +28,7 @@ cd ..
 terraform init -backend-config=backend.conf
 terraform apply -auto-approve
 ```
-## Destroy resources
+## Destroy
 ```shell
 terraform apply -destroy -auto-approve
 ```
