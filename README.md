@@ -2,9 +2,9 @@
 Terraform to maintain AWS resources: Lambda + S3 + CloudFront + CloudWatch + CodePipeline(TODO)
 
 ## Environment
-* Install `tfenv` ```brew install tfenv```
-* Install Terraform ```tfenv install```
-* [AWS CLI install](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html)
+* Install `tfenv`: ```brew install tfenv```
+* Install Terraform: ```tfenv install```
+* Install AWS CLI: See [Official Document](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html)
 
 ## Credentials
 `~/.aws/credentials`
@@ -25,7 +25,7 @@ terraform apply -auto-approve
 3. Go back to root folder, generate resources.
 ```shell
 cd ..
-terraform init
+terraform init -backend-config=backend.conf
 terraform apply -auto-approve
 ```
 ## Destroy resources
@@ -41,3 +41,4 @@ terraform apply -destroy -auto-approve
 ## TODO
 1. Convert to ESModule
 2. Introduce npm project
+3. Upgrade to AWS CLI v3
