@@ -35,8 +35,8 @@ module "lambda_role" {
 
 data "archive_file" "lambda_archive" {
   type        = "zip"
-  source_file = "${path.module}/${local.lambda_name}.js"
-  output_path = "${path.module}/deployables/${local.lambda_name}.zip"
+  source_file = "${path.module}/../${local.lambda_name}.js"
+  output_path = "${path.module}/../deployables/${local.lambda_name}.zip"
 }
 
 module "lambda_data" {
@@ -44,7 +44,7 @@ module "lambda_data" {
   function_name    = local.lambda_name
   function_handler = "${local.lambda_name}.handler"
   role_arn         = module.lambda_role.lambda_role_arn
-  zip_filename     = "${path.module}/deployables/${local.lambda_name}.zip"
+  zip_filename     = "${path.module}/../deployables/${local.lambda_name}.zip"
   zip_filehash     = data.archive_file.lambda_archive.output_base64sha256
 }
 

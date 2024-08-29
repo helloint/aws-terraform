@@ -16,13 +16,13 @@ aws_secret_access_key = XXX
 
 ## Setup
 1. First you need to have an AWS account with proper rules in order to create required resources.
-2. Go to `setup/` folder, generate resources that remote terraform state requires.
+2. Go to `terraform/setup/` folder, generate resources that remote terraform state requires.
 ```shell
-cd setup
+cd terraform/setup
 terraform init
 terraform apply -auto-approve
 ```
-3. Go back to root folder, generate resources.
+3. Go to parent folder, generate resources.
 ```shell
 cd ..
 terraform init -backend-config=backend.conf
