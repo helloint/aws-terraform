@@ -4,14 +4,13 @@ provider "aws" {
 
 #https://developer.hashicorp.com/terraform/language/settings/backends/s3
 terraform {
-  // Not using the latest version is because the latest macOS(darwin_arm64) version is v1.1.6
-  required_version = "~> 1.1"
+  required_version = "~> 1.9"
 
   required_providers {
     aws = {
       # https://registry.terraform.io/providers/hashicorp/aws/4.40.0
       source  = "hashicorp/aws"
-      version = "~> 4.40"
+      version = "~> 5.0"
     }
   }
 }
