@@ -37,8 +37,3 @@ terraform apply -destroy -auto-approve
 [tfenv](https://github.com/tfutils/tfenv)
 [Terraform CLI](https://developer.hashicorp.com/terraform/cli/commands/apply)
 [AWS Console](https://us-east-1.console.aws.amazon.com/s3/home?region=us-east-1)
-
-## TODO
-1. Convert to ESModule
-2. Introduce npm project
-3. Upgrade to AWS CLI v3

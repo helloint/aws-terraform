@@ -15,6 +15,7 @@ resource "aws_lambda_function" "function" {
   role             = var.role_arn
   runtime          = "nodejs18.x"
   layers           = var.layer == "" ? [] : [var.layer]
+  timeout          = 30 # in seconds
 }
 
 output "arn" {

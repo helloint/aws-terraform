@@ -35,7 +35,8 @@ module "lambda_role" {
 
 data "archive_file" "lambda_archive" {
   type        = "zip"
-  source_file = "${path.module}/../project/${local.lambda_name}.js"
+  source_dir = "${path.module}/../project/"
+  excludes   = ["deployables"]
   output_path = "${path.module}/../project/deployables/${local.lambda_name}.zip"
 }
 
