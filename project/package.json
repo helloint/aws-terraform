@@ -1,0 +1,23 @@
+{
+  "name": "nodejs-aws-terraform",
+  "version": "1.0.0",
+  "description": "Terraform to maintain AWS resources: Lambda + S3 + CloudFront + CloudWatch + CodePipeline(TODO)",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/helloint/aws-terraform.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/helloint/aws-terraform/issues"
+  },
+  "homepage": "https://github.com/helloint/aws-terraform#readme",
+  "dependencies": {
+    "@aws-sdk/client-s3": "^3.637.0"
+  }
+}

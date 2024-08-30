@@ -11,7 +11,7 @@ variable "bucket_name" {
 }
 
 variable "lambda_name" {
-  default = "processData"
+  default = "index"
 }
 
 variable "schedule_name" {

@@ -35,8 +35,8 @@ module "lambda_role" {
 
 data "archive_file" "lambda_archive" {
   type        = "zip"
-  source_file = "${path.module}/../${local.lambda_name}.js"
-  output_path = "${path.module}/../deployables/${local.lambda_name}.zip"
+  source_file = "${path.module}/../project/${local.lambda_name}.js"
+  output_path = "${path.module}/../project/deployables/${local.lambda_name}.zip"
 }
 
 module "lambda_data" {
@@ -44,7 +44,7 @@ module "lambda_data" {
   function_name    = local.lambda_name
   function_handler = "${local.lambda_name}.handler"
   role_arn         = module.lambda_role.lambda_role_arn
-  zip_filename     = "${path.module}/../deployables/${local.lambda_name}.zip"
+  zip_filename     = data.archive_file.lambda_archive.output_path
   zip_filehash     = data.archive_file.lambda_archive.output_base64sha256
 }
 
@@ -65,4 +65,27 @@ resource "aws_lambda_permission" "allow_events_bridge_to_run_lambda" {
   action        = "lambda:InvokeFunction"
   function_name = module.lambda_data.function_name
   principal     = "events.amazonaws.com"
+}
+
+data "archive_file" "lambda_isodd" {
+  type        = "zip"
+  source_file = "${path.module}/../isodd-lambda/dist/index.js"
+  output_path = "${path.module}/../isodd-lambda/dist/index.zip"
+}
+
+#Create our lambda function
+resource "aws_lambda_function" "is-odd" {
+  filename      = data.archive_file.lambda_isodd.output_path
+  source_code_hash = data.archive_file.lambda_isodd.output_base64sha256
+  function_name = "is-odd"
+  handler       = "index.handler"
+  role          = module.lambda_role.lambda_role_arn
+  runtime = "nodejs18.x"
+  layers = [aws_lambda_layer_version.is-odd_layer.arn]
+}
+
+resource "aws_lambda_layer_version" "is-odd_layer" {
+  filename   = "${path.module}/../isodd-lambda/nodejs.zip"
+  layer_name = "is-odd_layer"
+  compatible_runtimes = ["nodejs18.x"]
 }
