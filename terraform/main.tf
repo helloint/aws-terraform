@@ -89,3 +89,55 @@ resource "aws_lambda_layer_version" "is-odd_layer" {
   layer_name = "is-odd_layer"
   compatible_runtimes = ["nodejs18.x"]
 }
+
+resource "aws_api_gateway_rest_api" "is-odd-api" {
+  name = "is-odd-api"
+  description = "Created by Terraform"
+
+  # No this configuration will lead to exception, not sure if it is because of the edge not sync yet.
+  endpoint_configuration {
+    types = ["REGIONAL"]
+  }
+}
+
+resource "aws_api_gateway_resource" "is-odd-resource" {
+  rest_api_id = aws_api_gateway_rest_api.is-odd-api.id
+  parent_id   = aws_api_gateway_rest_api.is-odd-api.root_resource_id
+  path_part   = "is-odd"
+}
+
+resource "aws_api_gateway_method" "is-odd-method" {
+  rest_api_id   = aws_api_gateway_rest_api.is-odd-api.id
+  resource_id   = aws_api_gateway_resource.is-odd-resource.id
+  http_method   = "ANY" # GET is standard which match the function method, but ANY also works
+  authorization = "NONE"
+}
+
+resource "aws_api_gateway_integration" "is-odd-integration" {
+  rest_api_id = aws_api_gateway_rest_api.is-odd-api.id
+  resource_id = aws_api_gateway_resource.is-odd-resource.id
+  http_method = aws_api_gateway_method.is-odd-method.http_method
+  integration_http_method = "POST" # Has to be POST
+  type                    = "AWS_PROXY"
+  uri                     = aws_lambda_function.is-odd.invoke_arn
+}
+
+resource "aws_lambda_permission" "is-odd-api_gateway_permission" {
+  statement_id  = "AllowExecutionFromAPIGateway"
+  action        = "lambda:InvokeFunction"
+  function_name = aws_lambda_function.is-odd.function_name
+  principal     = "apigateway.amazonaws.com"
+
+  source_arn = "${aws_api_gateway_rest_api.is-odd-api.execution_arn}/*/*" # Can add suffix /is-odd but without it still works
+}
+
+resource "aws_api_gateway_deployment" "is-odd-deployment" {
+  depends_on = [aws_api_gateway_integration.is-odd-integration]
+
+  rest_api_id = aws_api_gateway_rest_api.is-odd-api.id
+  stage_name  = "default"
+}
+
+output "invoke_url" {
+  value = aws_api_gateway_deployment.is-odd-deployment.invoke_url
+}
