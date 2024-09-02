@@ -32,6 +32,7 @@ terraform apply -auto-approve
 ```shell
 terraform apply -destroy -auto-approve
 ```
+**!IMPORTANT** Everything in the created S3 bucket will be deleted, with the configure `force_destroy = true` in `terraform/modules/s3/main.tf`, for test purpose. You should think about it before use.
 
 ## Reference
 [tfenv](https://github.com/tfutils/tfenv)
