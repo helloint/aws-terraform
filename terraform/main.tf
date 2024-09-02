@@ -73,6 +73,12 @@ data "archive_file" "lambda_isodd" {
   output_path = "${path.module}/../isodd-lambda/dist/index.zip"
 }
 
+resource "aws_lambda_layer_version" "is-odd_layer" {
+	filename   = "${path.module}/../isodd-lambda/nodejs.zip"
+	layer_name = "is-odd_layer"
+	compatible_runtimes = ["nodejs18.x"]
+}
+
 #Create our lambda function
 resource "aws_lambda_function" "is-odd" {
   filename      = data.archive_file.lambda_isodd.output_path
@@ -82,12 +88,6 @@ resource "aws_lambda_function" "is-odd" {
   role          = module.lambda_role.lambda_role_arn
   runtime = "nodejs18.x"
   layers = [aws_lambda_layer_version.is-odd_layer.arn]
-}
-
-resource "aws_lambda_layer_version" "is-odd_layer" {
-  filename   = "${path.module}/../isodd-lambda/nodejs.zip"
-  layer_name = "is-odd_layer"
-  compatible_runtimes = ["nodejs18.x"]
 }
 
 resource "aws_api_gateway_rest_api" "is-odd-api" {
